@@ -13,7 +13,10 @@ class _ShowImageState extends State<ShowImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Show IMage")),
+      appBar: AppBar(
+        title: Text("รูปภาพที่แนบ"),
+        backgroundColor: Colors.lightBlue,
+      ),
       body: Image.network(
         widget.imgUrl,
         fit: BoxFit.fill,

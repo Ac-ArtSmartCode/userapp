@@ -37,80 +37,86 @@ class _RoomPageState extends State<RoomPage> {
                               height: 90,
                               decoration: BoxDecoration(
                                   color: snapshot.data!.docs[index]
-                                              .get("status") ==
-                                          "active"
+                                              .get("status") !=
+                                          "inactive"
                                       ? Colors.green
                                       : Colors.amber,
                                   borderRadius: BorderRadius.circular(20)),
                               child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ExpensesDetail(
-                                                acname: snapshot
-                                                    .data?.docs[index]
-                                                    .get("acname"),
-                                                price: snapshot
-                                                    .data?.docs[index]
-                                                    .get("price"),
-                                                detail: snapshot
-                                                    .data?.docs[index]
-                                                    .get("detail"),
-                                                image: snapshot
-                                                        .data?.docs[index]
-                                                        .get("slips") ??
-                                                    "",
-                                                by: snapshot.data?.docs[index]
-                                                    .get("by"),
-                                              )));
-                                },
-                                title: Text(
-                                  "${snapshot.data!.docs[index]['acname']}",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          "ขอเบิกเมื่อวันที่  ${snapshot.data!.docs[index]['date']}"),
-                                      Text(
-                                        "จำนวนเงิน ${snapshot.data!.docs[index]['price']} บาท",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ]),
-                                leading: Icon(
-                                  Icons.watch_outlined,
-                                  size: 30,
-                                ),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => UpdateExpense(
-                                                acname: snapshot.data!
-                                                    .docs[index]['acname'],
-                                                price: snapshot
-                                                    .data!.docs[index]['price'],
-                                                detail: snapshot.data!
-                                                    .docs[index]['detail'],
-                                                image: snapshot.data!
-                                                        .docs[index]['slips'] ??
-                                                    "",
-                                                by: snapshot
-                                                    .data!.docs[index].id)));
+                                            builder: (context) =>
+                                                ExpensesDetail(
+                                                  acname: snapshot
+                                                      .data?.docs[index]
+                                                      .get("acname"),
+                                                  price: snapshot
+                                                      .data?.docs[index]
+                                                      .get("price"),
+                                                  detail: snapshot
+                                                      .data?.docs[index]
+                                                      .get("detail"),
+                                                  image: snapshot
+                                                          .data?.docs[index]
+                                                          .get("slips") ??
+                                                      "",
+                                                  by: snapshot.data?.docs[index]
+                                                      .get("by"),
+                                                )));
                                   },
-                                ),
-                              ),
+                                  title: Text(
+                                    "${snapshot.data!.docs[index]['acname']}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            "ขอเบิกเมื่อวันที่  ${snapshot.data!.docs[index]['date']}"),
+                                        Text(
+                                          "จำนวนเงิน ${snapshot.data!.docs[index]['price']} บาท",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ]),
+                                  leading: const Icon(
+                                    Icons.watch_outlined,
+                                    size: 30,
+                                  ),
+                                  trailing: snapshot.data!.docs[index]
+                                              .get("status") ==
+                                          "inactive"
+                                      ? IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => UpdateExpense(
+                                                        acname: snapshot.data!
+                                                                .docs[index]
+                                                            ['acname'],
+                                                        price: snapshot.data!.docs[index]
+                                                            ['price'],
+                                                        detail: snapshot.data!
+                                                                .docs[index]
+                                                            ['detail'],
+                                                        image: snapshot.data!.docs[index]
+                                                                ['slips'] ??
+                                                            "",
+                                                        by: snapshot.data!
+                                                            .docs[index].id)));
+                                          },
+                                        )
+                                      : Text("")),
                             ),
                           )
                         ],

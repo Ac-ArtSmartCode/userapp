@@ -42,6 +42,11 @@ class _ActivityPageState extends State<ActivityPage> {
           if (snapshot.hasError) {
             return Text('Something went wrong');
           }
+          if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text("ไม่พบรายการเรียกเก็บ"),
+            );
+          }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

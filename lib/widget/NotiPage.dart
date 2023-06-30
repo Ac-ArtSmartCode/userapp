@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 
 class NotiPage extends StatefulWidget {
   NotiPage(
@@ -23,24 +22,8 @@ class _NotiPageState extends State<NotiPage> {
   CollectionReference account =
       FirebaseFirestore.instance.collection("account");
 
-  Future<void> checkDoc() async {
-    account.where("id", isEqualTo: widget.stdId).snapshots().listen((event) {
-      for (var element in event.docs) {
-        if (element.exists) {
-          AwesomeNotifications().createNotification(
-              content: NotificationContent(
-                  id: 1,
-                  channelKey: 'basic_channel',
-                  title: "แจ้งเตือน",
-                  body: "การแจ้งเตือน"));
-        }
-      }
-    });
-  }
-
   void initState() {
     super.initState();
-    checkDoc();
   }
 
   @override

@@ -73,7 +73,7 @@ class _ExpandState extends State<Expand> {
       "detail": activityModels.detail,
       "by": fullname,
       "slips": imageUrl,
-      "status": "wait",
+      "status": "inactive",
       "id": widget.stdId
     });
   }
@@ -135,31 +135,56 @@ class _ExpandState extends State<Expand> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
-                          setState(() {
-                            isLoad = true;
-                          });
                           formKey.currentState?.save();
-                          await uploadImage();
-                          setState(() {
-                            isLoad = false;
-                          });
-                          AlertDialog alert = AlertDialog(
-                            title: Column(children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: 50,
-                                color: Colors.greenAccent,
-                              ),
-                              Text("สร้างรายการสำเร็จ")
-                            ]),
-                          );
-                          Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return alert;
-                            },
-                          );
+                          if (image == null) {
+                            setState(() {
+                              isLoad = true;
+                            });
+                            AlertDialog alert = const AlertDialog(
+                              title: Column(children: [
+                                Icon(
+                                  Icons.close_rounded,
+                                  size: 50,
+                                  color: Colors.redAccent,
+                                ),
+                                Text("สร้างรายการไม่สำเร็จ")
+                              ]),
+                            );
+                            setState(() {
+                              isLoad = false;
+                            });
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alert;
+                              },
+                            );
+                          } else {
+                            setState(() {
+                              isLoad = true;
+                            });
+                            await uploadImage();
+                            setState(() {
+                              isLoad = false;
+                            });
+                            AlertDialog alert = const AlertDialog(
+                              title: Column(children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 50,
+                                  color: Colors.greenAccent,
+                                ),
+                                Text("สร้างรายการสำเร็จ")
+                              ]),
+                            );
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alert;
+                              },
+                            );
+                          }
                         },
                         child: Text("สร้างรายการขอเบิก"))
                   ],

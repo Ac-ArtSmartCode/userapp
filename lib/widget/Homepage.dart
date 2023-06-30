@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   double exTotal = 0;
   double exRoom = 0;
   double result = 0;
+  String? profile;
   double room = 0;
   Future<void> getExpenses() async {
     CollectionReference expenses =
@@ -98,6 +99,7 @@ class _HomePageState extends State<HomePage> {
       for (var element in value.docs) {
         setState(() {
           fullname = "${element['first_name']}  ${element['last_name']}";
+          profile = element.get("profile");
         });
       }
     });
@@ -148,12 +150,15 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: CircleAvatar(
-                  child: Icon(Icons.person),
-                ),
-              )
+              Padding(
+                  padding: EdgeInsets.all(4.0),
+                  child: profile == null
+                      ? CircleAvatar(
+                          child: Icon(Icons.person),
+                        )
+                      : CircleAvatar(
+                          backgroundImage: NetworkImage(profile.toString()),
+                        ))
             ]),
           )
         ],
@@ -166,11 +171,11 @@ class _HomePageState extends State<HomePage> {
             label: 'กิจกรรม',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.inbox),
+            icon: Icon(Icons.receipt_long),
             label: 'เบิกรายจ่าย',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.inbox),
+            icon: Icon(Icons.price_change_outlined),
             label: 'รายจ่าย',
           ),
         ],

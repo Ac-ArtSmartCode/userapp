@@ -31,7 +31,7 @@ class _PayPageState extends State<PayPage> {
   }
 
   Future getPay(String price) async {
-    var url = "https://promptpay.io/0614948855/$price";
+    var url = "https://promptpay.io/0993460142/$price";
     return url;
   }
 
@@ -74,12 +74,12 @@ class _PayPageState extends State<PayPage> {
                             AsyncSnapshot<dynamic> text) {
                           return Image.network(
                             text.data ??
-                                "https://promptpay.io/0614948855/${widget.price}",
+                                "https://promptpay.io/0993460142/${widget.price}",
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) {
                                 return child;
                               }
-                              return CircularProgressIndicator();
+                              return Center(child: CircularProgressIndicator());
                             },
                             fit: BoxFit.cover,
                           );
@@ -107,29 +107,54 @@ class _PayPageState extends State<PayPage> {
                         width: 200,
                         child: ElevatedButton(
                             onPressed: () async {
-                              setState(() {
-                                isLoad = true;
-                              });
-                              await uploadImage();
-                              AlertDialog alert = AlertDialog(
-                                title: Column(children: [
-                                  Icon(
-                                    Icons.check_circle,
-                                    size: 50,
-                                    color: Colors.greenAccent,
-                                  ),
-                                  Text("อัพโหลดสำเร็จ")
-                                ]),
-                              );
-                              setState(() {
-                                isLoad = false;
-                              });
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return alert;
-                                },
-                              );
+                              if (image != null) {
+                                setState(() {
+                                  isLoad = true;
+                                });
+                                await uploadImage();
+                                AlertDialog alert = const AlertDialog(
+                                  title: Column(children: [
+                                    Icon(
+                                      Icons.check_circle,
+                                      size: 50,
+                                      color: Colors.greenAccent,
+                                    ),
+                                    Text("อัพโหลดสำเร็จ")
+                                  ]),
+                                );
+                                setState(() {
+                                  isLoad = false;
+                                });
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return alert;
+                                  },
+                                );
+                              } else {
+                                setState(() {
+                                  isLoad = true;
+                                });
+                                AlertDialog alert = const AlertDialog(
+                                  title: Column(children: [
+                                    Icon(
+                                      Icons.close_rounded,
+                                      size: 50,
+                                      color: Colors.redAccent,
+                                    ),
+                                    Text("อัพไม่โหลดสำเร็จ")
+                                  ]),
+                                );
+                                setState(() {
+                                  isLoad = false;
+                                });
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return alert;
+                                  },
+                                );
+                              }
                             },
                             child: Text("อัพโหลดสลีป")))
                   ],

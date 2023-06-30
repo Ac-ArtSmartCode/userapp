@@ -63,16 +63,41 @@ class _LoginPageState extends State<LoginPage> {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     login.currentState?.save();
-                                    setState(() {
-                                      isload = true;
-                                    });
 
                                     await FirebaseFirestore.instance
                                         .collection('users')
                                         .where("id", isEqualTo: users.id)
                                         .get()
                                         .then((value) {
+                                      if (value.docs.isEmpty) {
+                                        setState(() {
+                                          isload = true;
+                                        });
+                                        AlertDialog alert = const AlertDialog(
+                                          title: Column(children: [
+                                            Icon(
+                                              Icons.close_rounded,
+                                              size: 50,
+                                              color: Colors.redAccent,
+                                            ),
+                                            Text("เข้าสู่ระบบไม่สำเร็จ")
+                                          ]),
+                                        );
+                                        setState(() {
+                                          isload = false;
+                                        });
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return alert;
+                                          },
+                                        );
+                                        return;
+                                      }
                                       if (value.docs.isNotEmpty) {
+                                        setState(() {
+                                          isload = true;
+                                        });
                                         for (var id in value.docs) {
                                           setState(() {
                                             stdId = id['id'];
